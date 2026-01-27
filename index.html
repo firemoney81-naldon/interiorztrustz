@@ -1,23 +1,492 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
+
+    <!-- Schema.org JSON-LD for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "진해 리모델링 전문업체",
+      "description": "창원시 진해구 지역 전문 리모델링 및 인테리어 시공 서비스. 아파트, 주택, 상가 등 다양한 공간의 맞춤형 인테리어를 제공합니다. 2026년 최신 리모델링 비용 견적 상담.",
+      "url": "https://www.jinhae-remodeling.com",
+      "telephone": "+82-55-1234-5678",
+      "priceRange": "$$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "진해구",
+        "addressRegion": "경상남도 창원시",
+        "postalCode": "51660",
+        "streetAddress": "창원시 진해구 XX로 123"
+      },
+      "sameAs": [
+        "https://blog.naver.com/jinhae-remodeling",
+        "https://www.instagram.com/jinhae-remodeling"
+      ],
+      "areaServed": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": "35.1481",
+          "longitude": "128.7197"
+        },
+        "geoRadius": "20000"
+      },
+      "brand": {
+        "@type": "Brand",
+        "name": "진해 인테리어 전문가 그룹"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": "김은지",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5"
+          },
+          "reviewBody": "진해 자은동 아파트 30평대 리모델링을 맡겼는데, 비용 대비 만족도가 매우 높았습니다. 견적부터 시공까지 투명하게 진행되어 믿을 수 있었습니다."
+        }
+      ]
+    }
+    </script>
+
+    <!-- Google Fonts: Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+      /* --- CSS Reset & Base Styles --- */
+      * {
+        margin: 0; padding: 0; box-sizing: border-box;
+      }
+      body {
+        font-family: 'Noto Sans KR', sans-serif;
+        line-height: 1.8;
+        color: #333;
+        background-color: #f5f7fa; /* Light background */
+      }
+      a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease, text-decoration 0.3s ease;
+      }
+      a:hover, a:focus {
+        text-decoration: underline;
+        color: #0056b3;
+      }
+      img { max-width: 100%; height: auto; display: block; }
+
+      /* --- Header & Navigation --- */
+      header {
+        background-color: #1a5e4b; /* Deep Teal/Green */
+        color: #fff;
+        padding: 20px 15px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      header h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      header p {
+          font-size: 1.2rem;
+          color: #c7d8c2;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        font-weight: 600;
+        flex-wrap: wrap;
+      }
+      nav ul li a {
+        color: #fff;
+        font-size: 1.1rem;
+        padding: 8px 15px;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+      }
+      nav ul li a:hover {
+        background-color: #2e8d72; /* Lighter shade on hover */
+        text-decoration: none;
+      }
+
+      /* --- Main Content Layout --- */
+      main {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+      section {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+      h2 {
+        color: #1a5e4b;
+        margin-bottom: 20px;
+        font-size: 2rem;
+        border-bottom: 3px solid #6c9c8e;
+        padding-bottom: 10px;
+        font-weight: 700;
+      }
+      h3 {
+        color: #2e8d72;
+        font-size: 1.5rem;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-bottom: 18px;
+        word-break: keep-all; /* Prevents awkward line breaks for Korean text */
+      }
+      strong { font-weight: 700; color: #1a5e4b; }
+
+      /* --- Keyword List Styling --- */
+      .keywords-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
+      .keywords-list span {
+        background-color: #eaf1f1; /* Light mint/grey */
+        color: #1a5e4b;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        border: 1px solid #c7d8c2;
+      }
+
+      /* --- Table Styling --- */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background-color: #f0f0f0;
+        font-weight: 700;
+        color: #444;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      /* --- Form Styling (Dwell Time Enhancer) --- */
+      .consultation-form {
+        background-color: #f7f9fb;
+        padding: 25px;
+        border-radius: 10px;
+        border: 1px dashed #c7d8c2;
+      }
+      .consultation-form label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #333;
+      }
+      .consultation-form input[type="text"],
+      .consultation-form input[type="email"],
+      .consultation-form input[type="tel"],
+      .consultation-form select,
+      .consultation-form textarea {
+        width: calc(100% - 20px);
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+      .form-group { margin-bottom: 20px; }
+      .form-group-inline {
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+      }
+      .form-group-inline > div { flex-grow: 1; min-width: 45%; }
+
+      /* --- CTA Button Styling --- */
+      .cta-button {
+        display: block;
+        background-color: #f39c12; /* Warm orange */
+        color: white;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        border-radius: 8px;
+        font-weight: 700;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 25px;
+        border: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .cta-button:hover, .cta-button:focus {
+        background-color: #e67e22;
+        text-decoration: none;
+      }
+
+      /* --- Utility Styles --- */
+      .info-box {
+        background-color: #f0f8ff; /* Light blue */
+        border-left: 5px solid #2980b9;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        font-size: 0.95rem;
+      }
+      .trusted-link {
+          font-weight: 700;
+          color: #2c3e50;
+          text-decoration: underline;
+      }
+
+      /* --- Footer --- */
+      footer {
+        text-align: center;
+        padding: 30px 10px;
+        background-color: #34495e; /* Dark Grey/Blue */
+        color: white;
+        font-size: 0.9rem;
+        margin-top: 50px;
+      }
+
+      /* --- Responsive adjustments --- */
+      @media (max-width: 768px) {
+        header h1 { font-size: 2rem; }
+        nav ul { gap: 15px; }
+        main { padding: 0 10px; }
+        section { padding: 20px; }
+        h2 { font-size: 1.8rem; }
+        h3 { font-size: 1.3rem; }
+        p, .keywords-list span { font-size: 1rem; }
+        .form-group-inline { flex-direction: column; }
+        .form-group-inline > div { min-width: 100%; }
+      }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>진해 리모델링 | 아파트, 주택 인테리어 전문</h1>
+        <p>창원시 진해구 지역 전문 시공, 2026년 최신 견적 가이드</p>
+        <nav aria-label="주요 메뉴">
+            <ul>
+                <li><a href="#견적_및_비용" class="internal-link">견적 및 비용 가이드</a></li>
+                <li><a href="#리모델링_종류" class="internal-link">리모델링 종류</a></li>
+                <li><a href="#시공_프로세스" class="internal-link">시공 프로세스</a></li>
+                <li><a href="#업체_선정_기준" class="internal-link">업체 선정 기준</a></li>
+                <li><a href="#상담_신청" class="internal-link">상담 신청</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <main>
-      <h1>Home page</h1>
+        <!-- Section 1: Introduction and Core Value Proposition -->
+        <section id="소개">
+            <h2>진해 리모델링, 지금이 적기입니다</h2>
+            <p><strong>진해 리모델링</strong>은 단순히 노후된 부분을 교체하는 것을 넘어, 삶의 질을 향상시키는 투자입니다. 2026년 최신 트렌드와 기술을 바탕으로 창원시 진해구 지역 아파트 및 주택에 최적화된 맞춤형 인테리어를 제안합니다. 특히, <strong>진해구 포장이사</strong>를 고려하는 고객님들께는 이사와 리모델링을 동시에 진행하여 비용을 절감하는 패키지 서비스도 제공합니다.</p>
+            <p>진해 지역 특성상 구축 아파트의 리모델링 수요가 높습니다. 저희는 단순히 저렴한 견적만을 제시하는 것이 아니라, <strong>진해 리모델링 업체 순위</strong>에서 상위권을 차지할 수 있도록 내구성, 디자인, 합리적인 <strong>진해 인테리어 비용</strong> 세 가지 요소를 모두 충족하는 시공을 목표로 합니다. 고객님의 소중한 보금자리가 될 공간을 신뢰할 수 있는 전문가에게 맡겨주세요.</p>
+            <div class="info-box">
+                <strong>[주요 서비스]</strong> 아파트 전체 리모델링, 부분 인테리어(주방, 욕실), 주택 리모델링, 상업 공간 인테리어. 창원시 진해구 전 지역(풍호동, 자은동, 이동, 석동 등) 출장 상담 가능.
+            </div>
+        </section>
+
+        <!-- Section 2: Cost Analysis and Estimation Guide -->
+        <section id="견적_및_비용">
+            <h2>진해 리모델링 비용 분석 및 견적 가이드</h2>
+            <p>리모델링을 시작하기 전 가장 궁금한 부분은 바로 <strong>진해 리모델링 예상 금액</strong>일 것입니다. 2026년 기준, 창원시 진해구의 리모델링 시장은 자재비 상승과 인건비 변동으로 인해 비용에 대한 정확한 이해가 필수적입니다. 저희는 투명한 <strong>진해 인테리어 견적</strong> 시스템을 통해 고객님들의 궁금증을 해소해 드립니다. 비용은 크게 '시공 범위', '자재 등급', '업체 전문성'에 따라 달라집니다.</p>
+
+            <h3>2026년 진해 아파트 평형별 평균 리모델링 비용 비교 (표)</h3>
+            <p>아래 표는 진해구 내 20평대, 30평대 아파트의 일반적인 리모델링 범위를 기준으로 한 <strong>평균적인 금액</strong>을 제시합니다. 실제 견적은 현장 상황에 따라 달라질 수 있으므로 참고용으로 활용하시기 바랍니다.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>평형대</th>
+                        <th>시공 범위</th>
+                        <th>예상 비용 (평균)</th>
+                        <th>주의사항</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>20평대 (59~72㎡)</strong></td>
+                        <td>전체 인테리어 (샤시, 주방, 욕실 2개소, 바닥, 도배 등)</td>
+                        <td>2,500만 원 ~ 4,000만 원</td>
+                        <td>샤시 교체 여부에 따라 <strong>금액</strong> 변동폭이 큼.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>30평대 (84~100㎡)</strong></td>
+                        <td>전체 인테리어 (샤시, 주방, 욕실 2개소, 바닥, 도배 등)</td>
+                        <td>4,000만 원 ~ 6,000만 원</td>
+                        <td>구축 아파트는 단열 공사가 추가될 수 있음.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>40평대 이상</strong></td>
+                        <td>전체 인테리어 (고급 자재 포함 시)</td>
+                        <td>6,000만 원 이상</td>
+                        <td>자재 선택에 따른 <strong>가격</strong> 편차가 가장 큼.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>진해 리모델링 비용 절감 장점과 단점 (분석)</h3>
+            <p><strong>진해 리모델링 저렴한 곳</strong>을 찾는 것은 중요하지만, <strong>장단점</strong>을 명확히 이해해야 합니다. 최저가만을 고집할 경우, 저가 자재 사용, 미숙련 인력 투입, AS 부실 등의 <strong>단점</strong>이 발생할 수 있습니다. 반면, 합리적인 <strong>비용</strong>과 품질을 동시에 추구하는 업체는 초기 <strong>예상 비용</strong>이 높더라도 장기적인 관점에서 <strong>장점</strong>이 훨씬 큽니다. 시공 전 꼼꼼한 <strong>가격 비교</strong>와 견적 내용 상세 확인이 필수적입니다.</p>
+        </section>
+
+        <!-- Section 3: Remodeling Types and Service Scope -->
+        <section id="리모델링_종류">
+            <h2>진해구 맞춤형 리모델링 종류 및 핵심 시공</h2>
+            <p>진해 지역에는 다양한 주거 형태가 존재하며, 고객님의 요구에 맞는 <strong>진해 리모델링 종류</strong>를 선택하는 것이 중요합니다. 저희는 아파트, 주택, 상가 등 공간별 특성을 고려한 맞춤형 솔루션을 제공합니다.</p>
+
+            <h3>1. 아파트 전체 리모델링 (창원시 진해구 자은동, 풍호동)</h3>
+            <p>진해구 자은동, 풍호동, 이동 지역은 노후 아파트 단지가 많아 전체 리모델링 수요가 높습니다. 전체 리모델링은 샤시 교체를 포함하여 단열 보강, 배관 공사, 전기 설비 등 주거 성능 향상에 초점을 맞춥니다. 특히 구축 아파트는 누수나 곰팡이 문제가 흔하므로, 꼼꼼한 현장 점검을 통해 <strong>내돈내산 후기</strong>에서도 만족도가 높은 시공을 지향합니다.</p>
+
+            <h3>2. 주택 리모델링 (진해구 마산, 창원 연계 지역)</h3>
+            <p>마산 및 창원 연계 지역의 단독 주택 리모델링은 아파트와 달리 구조 변경이 자유롭다는 <strong>장점</strong>이 있습니다. 하지만 단열, 방수, 내진 보강 등 주택만의 특수 공사가 필요하며, 전문적인 지식이 없는 업체에 맡길 경우 <strong>단점</strong>이 부각될 수 있습니다. <strong>진해 리모델링</strong> 전문가는 주택의 구조적 안정성을 최우선으로 고려하여 시공합니다.</p>
+
+            <h3>3. 부분 리모델링 (주방, 욕실, 거실 확장)</h3>
+            <p>전체 리모델링이 부담스럽다면 <strong>진해 부분 리모델링</strong>을 추천합니다. 주방은 주부님들의 동선을 고려한 "ㄷ"자형 또는 "ㄱ"자형 레이아웃 변경이 인기입니다. 욕실은 위생과 기능성을 고려하여 방수 공사와 타일 교체를 진행합니다. 거실 확장은 개방감을 높이는 <strong>장점</strong>이 있으며, 확장 시 단열 보강은 필수입니다.</p>
+
+            <div class="info-box">
+                <strong>[시공 팁]</strong> 리모델링 전 <strong>진해구청</strong> 또는 <a href="https://www.eais.go.kr/main/index.do" class="trusted-link" target="_blank">국가 건축물 정보센터</a>에서 아파트 평면도 및 건축 정보를 확인하면 견적의 정확도를 높일 수 있습니다.
+            </div>
+        </section>
+
+        <!-- Section 4: Process and Quality Assurance -->
+        <section id="시공_프로세스">
+            <h2>진해 리모델링 시공 절차: 5단계 완벽 가이드</h2>
+            <p>체계적인 시공 프로세스는 <strong>진해 리모델링</strong>의 성공을 보장하는 핵심 요소입니다. 저희는 투명하고 체계적인 5단계 시스템을 통해 고객님과의 소통을 최우선으로 합니다.</p>
+
+            <h3>단계별 프로세스 상세 안내</h3>
+            <ol>
+                <li><strong>상담 및 견적 요청:</strong> 고객님의 요구사항(평형, 범위, 예산)을 파악하고 1차 <strong>진해 리모델링 견적</strong>을 안내합니다. <strong>진해 인테리어 비용</strong>의 <strong>평균</strong>치를 기준으로 합리적인 금액을 제시합니다.</li>
+                <li><strong>현장 방문 및 정밀 진단:</strong> <strong>창원시 진해구</strong> 현장 방문을 통해 실측을 진행하고, 노후도(누수, 결로 등)를 진단합니다. 이를 바탕으로 2차 정밀 견적과 디자인 시안을 확정합니다.</li>
+                <li><strong>계약 및 자재 선정:</strong> 계약서에 시공 범위, 자재 목록, <strong>예상 비용</strong>, 공사 기간, AS 보증 내용을 명확하게 명시합니다. <strong>진해 인테리어 업체</strong>마다 <strong>장단점</strong>이 있으므로 계약 전 꼼꼼한 확인이 중요합니다.</li>
+                <li><strong>시공 및 품질 관리:</strong> 전문 시공팀이 투입되어 공사를 진행하며, 매일 공사 상황을 고객님께 보고합니다. <strong>진해 리모델링</strong> 공사 중 발생하는 변수는 즉시 고객님과 협의하여 해결합니다.</li>
+                <li><strong>완료 및 AS 보증:</strong> 공사 완료 후 최종 점검을 진행합니다. 일정 기간 동안 발생하는 하자에 대해 책임 보증을 제공합니다. <strong>저렴한 곳</strong>을 선택했을 때 AS가 미흡할 수 있으므로, 보증 기간을 꼭 확인해야 합니다.</li>
+            </ol>
+        </section>
+
+        <!-- Section 5: Keywords and Local SEO Optimization -->
+        <section id="키워드_분석">
+            <h2>진해 리모델링 검색 트렌드 분석: 자동완성 및 연관 키워드</h2>
+            <p>네이버 검색 데이터를 분석하여 고객들이 <strong>진해 리모델링</strong> 관련하여 실제로 검색하는 키워드를 파악했습니다. 이 키워드들을 통해 고객의 의도를 정확히 이해하고 맞춤 정보를 제공하여 <strong>창원 진해구</strong> 지역 검색에서 상위 노출을 목표로 합니다.</p>
+
+            <h3>진해 인테리어 자동완성 키워드 목록</h3>
+            <div class="keywords-list" aria-label="진해 리모델링 자동완성 키워드 목록">
+                <span>진해 리모델링</span>
+                <span>진해 인테리어 업체</span>
+                <span>진해 아파트 인테리어</span>
+                <span>진해 주택 리모델링</span>
+                <span>진해 인테리어 견적</span>
+                <span>창원 진해 리모델링 비용</span>
+                <span>진해 20평대 리모델링</span>
+                <span>진해 30평대 인테리어</span>
+            </div>
+
+            <h3>진해 리모델링 연관 검색어 키워드 목록</h3>
+            <div class="keywords-list" aria-label="진해 리모델링 연관 검색어 목록">
+                <span>진해 인테리어 잘하는 곳</span>
+                <span>진해 리모델링 추천</span>
+                <span>진해 리모델링 저렴한 곳</span>
+                <span>진해 인테리어 싼곳</span>
+                <span>진해 내돈내산 후기</span>
+                <span>진해 인테리어 장단점</span>
+                <span>진해 아파트 리모델링 <strong>가격</strong></span>
+                <span>진해 리모델링 <strong>평균 금액</strong></span>
+            </div>
+
+            <h3>함께 많이 찾는 키워드 (지역명 30개 포함)</h3>
+            <div class="keywords-list" aria-label="함께 많이 찾는 지역 키워드 목록">
+                <span>창원 리모델링</span><span>마산 리모델링</span><span>용원동 리모델링</span><span>풍호동 리모델링</span><span>석동 인테리어</span><span>자은동 아파트 리모델링</span><span>이동 인테리어 업체</span><span>덕산동 리모델링</span><span>웅동 리모델링</span><span>경화동 인테리어</span><span>진해구 아파트</span><span>진해구 주택</span><span>진해구 상가 인테리어</span><span>진해 리모델링 <strong>차이점</strong></span><span>리모델링 <strong>장점</strong></span><span>리모델링 <strong>단점</strong></span><span>리모델링 <strong>비교</strong></span><span>리모델링 <strong>순위</strong></span>
+            </div>
+        </section>
+
+        <!-- Section 6: Local Service Areas and Trust Building -->
+        <section id="지역_서비스_안내">
+            <h2>진해구 전 지역 서비스 가능: 지역별 특징 고려</h2>
+            <p><strong>진해구</strong>는 신도시와 구도심이 혼재되어 있어 지역별 특성을 이해하는 것이 중요합니다. 저희는 <strong>진해구</strong>의 각 동별 건축 연도와 주거 환경을 면밀히 분석하여 최적화된 시공을 제공합니다. <strong>자은동</strong>, <strong>풍호동</strong>, <strong>석동</strong>, <strong>이동</strong> 지역은 아파트 단지가 밀집되어 있어 대규모 리모델링 수요가 높으며, <strong>용원동</strong>이나 <strong>웅동</strong> 지역은 주택 리모델링과 상업 공간 인테리어 비중이 높습니다. <strong>진해구 리모델링 업체</strong>를 선정할 때 해당 지역 시공 경험이 풍부한지 확인해야 합니다.</p>
+
+            <h3>리모델링 성공을 위한 필수 체크리스트</h3>
+            <ul>
+                <li><strong>계약서 명확성:</strong> <strong>예상 비용</strong>, 공사 기간, 자재 사양을 반드시 명시합니다. 구두 계약은 <strong>단점</strong>이 많습니다.</li>
+                <li><strong>AS 보증:</strong> 시공 후 1년 이상의 AS 보증 기간을 확보해야 추후 발생할 수 있는 하자에 대비할 수 있습니다.</li>
+                <li><strong>업체 비교:</strong> 최소 3곳 이상의 <strong>진해 리모델링 업체</strong> 견적을 받아 <strong>비용</strong>과 서비스 수준을 꼼꼼히 <strong>비교</strong>합니다. <strong>추천</strong> 업체 목록을 참고하되, 현장 상담을 통해 신뢰도를 판단해야 합니다.</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>[신뢰성 확보]</strong> 저희는 <a href="https://namu.wiki/w/%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4" class="trusted-link" target="_blank">나무위키 인테리어 항목</a>에서 설명하는 전문적인 시공 기준을 준수하며, <a href="http://www.k-apt.go.kr/" class="trusted-link" target="_blank">공동주택관리정보시스템(K-apt)</a>을 통해 아파트 단지 정보를 사전에 분석합니다.
+            </div>
+        </section>
+
+        <!-- Section 7: Interactive Form for Consultation (Dwell Time Increase) -->
+        <section id="상담_신청">
+            <h2>진해 리모델링 무료 견적 및 상담 신청</h2>
+            <p><strong>진해 리모델링</strong> 전문가와 함께 고객님의 공간을 새롭게 디자인하세요. 간단한 정보를 입력해 주시면 신속하게 <strong>진해 인테리어 견적</strong> 상담을 도와드립니다. <strong>예상 비용</strong>이나 공사 범위에 대한 궁금증을 해결해 드립니다.</p>
+            <form action="#" method="post" class="consultation-form">
+                <div class="form-group">
+                    <label for="name">성함</label>
+                    <input type="text" id="name" name="name" placeholder="성함을 입력해주세요" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">연락처</label>
+                    <input type="tel" id="phone" name="phone" placeholder="010-xxxx-xxxx" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">시공 희망 지역 (진해구 내 상세 주소)</label>
+                    <input type="text" id="location" name="location" placeholder="예: 진해구 자은동 OO아파트" required>
+                </div>
+                <div class="form-group">
+                    <label for="type">시공 종류 (선택)</label>
+                    <select id="type" name="type" required>
+                        <option value="">-- 선택하세요 --</option>
+                        <option value="total">아파트 전체 리모델링</option>
+                        <option value="house">주택 전체 리모델링</option>
+                        <option value="kitchen">주방 부분 리모델링</option>
+                        <option value="bathroom">욕실 부분 리모델링</option>
+                        <option value="partial">기타 부분 인테리어</option>
+                    </select>
+                </div>
+                <div class="form-group-inline">
+                    <div class="form-group">
+                        <label for="area">평형대</label>
+                        <input type="text" id="area" name="area" placeholder="예: 30평형" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="budget">예상 예산 (선택)</label>
+                        <select id="budget" name="budget">
+                            <option value="">-- 예산대 선택 --</option>
+                            <option value="under2000">2천만원 미만</option>
+                            <option value="2000-4000">2천~4천만원</option>
+                            <option value="4000-6000">4천~6천만원</option>
+                            <option value="over6000">6천만원 이상</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="message">문의 내용 (상세 요청사항)</label>
+                    <textarea id="message" name="message" rows="5" placeholder="궁금한 점이나 특별히 요청하는 사항을 적어주세요."></textarea>
+                </div>
+                <button type="submit" class="cta-button">무료 견적 상담 신청하기</button>
+            </form>
+            <p style="text-align: center; margin-top: 15px;">전화 상담: <a href="tel:+82-55-1234-5678" class="internal-link">+82-55-1234-5678</a></p>
+        </section>
+
     </main>
-  </body>
-</html>
+
+    
+  
